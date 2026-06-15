@@ -1,0 +1,92 @@
+{
+  "supportTelegram": "https://t.me/talkbank_support",
+  "cards": [
+    {
+      "id": "visa-gold",
+      "brand": "Visa",
+      "name": "Visa Gold",
+      "price": 34990,
+      "currency": "RUB",
+      "tagline": "Для путешествий и ежедневного использования",
+      "features": [
+        "Лимит 6 000 $ в сутки",
+        "Google Pay",
+        "SWIFT-переводы",
+        "Мультивалютные счета"
+      ],
+      "premium": false,
+      "color": "#1A56DB",
+      "link": "https://t.me/TGMarketPayBot?start=pl_2bc2f2820f10302c_34990_VISAGOLD"
+    },
+    {
+      "id": "visa-infinite",
+      "brand": "Visa",
+      "name": "Visa Infinite",
+      "price": 37990,
+      "currency": "RUB",
+      "tagline": "Для активных путешественников и бизнеса",
+      "features": [
+        "Лимит 20 000 $ в сутки",
+        "Личный менеджер",
+        "Lounge-привилегии",
+        "Повышенные лимиты",
+        "SWIFT-переводы"
+      ],
+      "premium": false,
+      "color": "#0B2447",
+      "link": "https://t.me/TGMarketPayBot?start=pl_2bc2f2820f10302c_37990_VISAINFINITE"
+    },
+    {
+      "id": "mastercard-gold",
+      "brand": "Mastercard",
+      "name": "Mastercard Gold",
+      "price": 34990,
+      "currency": "RUB",
+      "tagline": "Валюты: EUR / KGS",
+      "features": [
+        "Международные платежи",
+        "Онлайн-покупки",
+        "Google Pay",
+        "3D Secure",
+        "Предложения Mastercard"
+      ],
+      "premium": false,
+      "color": "#EB001B",
+      "link": "https://t.me/TGMarketPayBot?start=pl_2bc2f2820f10302c_34990_MastercardGOLD"
+    },
+    {
+      "id": "mastercard-world-elite",
+      "brand": "Mastercard",
+      "name": "Mastercard World Elite",
+      "price": 39990,
+      "currency": "RUB",
+      "tagline": "Премиальная карта",
+      "features": [
+        "LoungeKey без ограничений",
+        "Fast Track в аэропортах",
+        "Медицинская страховка",
+        "Страхование путешествий",
+        "Роуминг данных",
+        "Премиальные привилегии Mastercard"
+      ],
+      "premium": true,
+      "color": "#0A0A0A",
+      "link": "https://t.me/TGMarketPayBot?start=pl_2bc2f2820f10302c_39990_MastercardELITE"
+    }
+  ],
+  "comparison": {
+    "rows": [
+      { "label": "Стоимость", "values": ["34 990 ₽", "37 990 ₽", "34 990 ₽", "39 990 ₽"] },
+      { "label": "Валюта счёта", "values": ["USD/EUR/USD", "USD/EUR/USD", "EUR/KGS", "USD/EUR/GBP"] },
+      { "label": "Суточный лимит", "values": ["6 000 $", "20 000 $", "По умолчанию банка", "Повышенный"] },
+      { "label": "Годовое обслуживание", "values": ["По тарифу банка", "По тарифу банка", "По тарифу банка", "По тарифу банка"] },
+      { "label": "Неснижаемый остаток", "values": ["Нет", "Нет", "Нет", "Нет"] },
+      { "label": "Lounge", "values": ["—", "✓", "—", "✓ Без ограничений"] },
+      { "label": "Fast Track", "values": ["—", "—", "—", "✓"] },
+      { "label": "Личный менеджер", "values": ["—", "✓", "—", "✓"] },
+      { "label": "Страховка", "values": ["—", "—", "—", "✓"] },
+      { "label": "SWIFT", "values": ["✓", "✓", "—", "✓"] },
+      { "label": "Google Pay", "values": ["✓", "✓", "✓", "✓"] }
+    ]
+  }
+}
