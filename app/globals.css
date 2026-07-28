@@ -1,42 +1,128 @@
 @import "tailwindcss";
 
+/*
+  Дизайн-токены из README хендоффа. Значения — ровно из спецификации.
+  Стилизация лендинга сделана преимущественно инлайн-стилями (как в прототипе),
+  чтобы сохранить точные rgba/clamp/градиенты 1:1. Здесь — только то, что
+  нельзя выразить инлайном: шрифт, keyframes, reveal-поведение и медиазапросы
+  адаптивной сетки (брейкпоинты 1080 / 880 / 620px).
+*/
+
 :root {
-  --background: #ffffff;
-  --foreground: #0b1b3a;
-  --brand-navy: #0b1b3a;
-  --brand-blue: #2563eb;
+  --brand-blue: #4f8bff;
+  --brand-blue-deep: #2f5fe0;
+  --brand-navy: #0e1730;
+  --bg-dark: #070d1f;
+  --bg-deep: #060912;
+  --bg-light: #f5f7fb;
+  --text-secondary: #5b6479;
+  --success: #5ee0a0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-tt-firs);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+* {
+  box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-.container-px {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+body {
+  margin: 0;
+  font-family: var(--font-tt-firs), system-ui, sans-serif;
+  background: #080d1c;
+  color: #0e1730;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-@media (min-width: 768px) {
-  .container-px {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+::selection {
+  background: #3f7bff;
+  color: #fff;
+}
+
+/* ---------- Анимации ---------- */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes glowpulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.anim-floaty { animation: floaty 6s ease-in-out infinite; }
+.anim-glow { animation: glowpulse 7s ease-in-out infinite; }
+
+/* ---------- Reveal при скролле (класс переключает useReveal) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.75s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Уважаем настройку пользователя: никаких движущихся эффектов */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .anim-floaty,
+  .anim-glow {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
   }
 }
 
-@media (min-width: 1280px) {
-  .container-px {
-    padding-left: 5rem;
-    padding-right: 5rem;
-  }
+/* ---------- Адаптивные хелперы сетки (брейкпоинты прототипа) ---------- */
+@media (max-width: 1080px) {
+  .cardsgrid { grid-template-columns: 1fr 1fr !important; }
+  .grid4 { grid-template-columns: 1fr 1fr !important; }
+  .grid5 { grid-template-columns: repeat(3, 1fr) !important; }
+  .grid6 { grid-template-columns: repeat(3, 1fr) !important; }
+  .grid3 { grid-template-columns: 1fr 1fr !important; }
+  .benefitsgrid { grid-template-columns: 1fr 1fr !important; }
+}
+
+/* Бургер виден только на узких экранах */
+.burger { display: none; }
+
+@media (max-width: 880px) {
+  .navlinks { display: none !important; }
+  .burger { display: inline-flex !important; }
+  .herogrid { grid-template-columns: 1fr !important; }
+  .coveragegrid { grid-template-columns: 1fr !important; }
+  .splitgrid { grid-template-columns: 1fr !important; }
+  .footgrid { grid-template-columns: 1fr !important; }
+  .grid3 { grid-template-columns: 1fr !important; }
+  .cmptable { display: none !important; }
+  .cmpcards { display: flex !important; }
+}
+
+@media (max-width: 620px) {
+  .cardsgrid { grid-template-columns: 1fr !important; }
+  .grid4 { grid-template-columns: 1fr 1fr !important; }
+  .grid5 { grid-template-columns: 1fr 1fr !important; }
+  .grid6 { grid-template-columns: 1fr 1fr !important; }
+  .benefitsgrid { grid-template-columns: 1fr !important; }
+  .photopair { grid-template-columns: 1fr !important; }
 }

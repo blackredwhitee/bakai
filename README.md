@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Лендинг международных карт Visa / Mastercard (TalkBank)
 
-## Getting Started
+Продающий лендинг для граждан РФ: именные карты Visa / Mastercard с выпуском в банке
+Кыргызстана — удалённо, по паспорту РФ. Реализация по дизайн-хендоффу
+(`design_handoff_kg_cards`).
 
-First, run the development server:
+## Стек
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Tailwind v4** (подключён), точные значения дизайна — инлайн-стилями 1:1 с хендоффом
+- Шрифт **TT Firs Neue** через `next/font/local` (веса 400/700, `display: swap`)
+- Иконки — **lucide-react**; валидация формы — **zod**
+
+## Запуск
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # заполнить токен и chat_id Telegram
+npm run dev                  # http://localhost:3000
+npm run build && npm start   # прод
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Приём заявок (Telegram)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Форма постит на серверный Route Handler `app/api/lead/route.ts`. Токен и chat_id
+хранятся только в env и на клиент не попадают. Есть zod-валидация, rate-limit по IP
+(in-memory) и honeypot-поле от ботов.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+TELEGRAM_BOT_TOKEN=...    # бот должен быть админом группы
+TELEGRAM_CHAT_ID=-100...  # id группы (отрицательный)
+```
 
-## Learn More
+## Структура
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/
+  layout.tsx        # шрифт, metadata/OpenGraph, Schema.org (Organization + Product)
+  page.tsx          # сборка секций по порядку
+  globals.css       # токены, keyframes, reveal, адаптивные хелперы (1080/880/620)
+  api/lead/route.ts # приём заявок → Telegram
+content/            # контент вынесен из вёрстки (правится без изменения кода)
+  cards.ts          # 4 карты: цена, ссылка оплаты, градиент, характеристики, привилегии
+  compare.ts        # 23 строки сравнения + хелперы (мобильные карточки, строки модалки)
+  faq.ts            # вопросы
+  site.ts           # навигация, преимущества, сервисы, гео, шаги, документы, юр. данные
+components/         # Header (бургер), Hero, ServicesSection, CardsSection, CardVisual,
+                    # CardModal, ComparisonSection, Sections (7–15), Faq, FinalCta,
+                    # ApplyForm, Footer, Reveal, ui, icons
+lib/hooks.ts        # useLockScroll, useEscape
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Изменение цен и ссылок
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Всё в `content/cards.ts`. В ссылке оплаты зашита сумма
+(`...pl_2bc2f2820f10302c_<сумма>_<КОД>`) — при смене цены менять и `price`, и `payLink`.
 
-## Deploy on Vercel
+## Доступность и производительность
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Модалка карты: `aria-modal`, focus-trap, Esc, клик по оверлею, блокировка скролла,
+  возврат фокуса на триггер.
+- Бургер-меню: выезжающая панель, Esc, блокировка скролла.
+- Reveal-анимации на `IntersectionObserver`, полностью отключаются при
+  `prefers-reduced-motion`.
+- Картинки через `next/image` (AVIF/WebP); фото карт в герое — `priority`, остальные ленивые.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## TODO (помечено в коде `TODO(design)`)
+
+- Заменить текстовые «логотипы» сервисов (Booking, Netflix, …) на реальные SVG.
+- Заменить текстовые названия банков пополнения (Сбер, Т-Банк, …) на реальные SVG.
+- Блок «География»: заменить точечный паттерн на реальную гео-карту с подсветкой стран.
+- Rate-limit заявок — при нескольких инстансах вынести в общий стор (Redis/Upstash).
+
+## Правки заказчика (соблюдены)
+
+Без шрифтов с засечками · без упоминания металлических карт · на лицах карт нет названий
+банков (только платёжная система, уровень и маскированный номер) · стоимость оформления
+34 990–39 990 ₽ · первый экран не перегружен · без бейджа «Флагманская», плашки «Именная
+карта Visa Infinite», галереи и плитки приложения в «Что получаете» · без фейковых отзывов
+(вместо них — блок «После оформления вы получаете» с реальными фото) · заголовок обращён
+к гражданам РФ.

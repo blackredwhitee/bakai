@@ -1,493 +1,409 @@
-"use client";
+import Image from "next/image";
+import Reveal from "./Reveal";
+import { SectionHead, Check } from "./ui";
+import { Icon } from "./icons";
+import {
+  COVERAGE, WHY_KG, INCLUDED, STEPS, DOCUMENTS, BANKS, CURRENCIES,
+  APP_FEATURES, AUDIENCES, SECURITY, CLIENT_GETS,
+} from "@/content/site";
 
-import { useState } from "react";
-import { Container, SectionTitle, PrimaryButton, SecondaryButton, SUPPORT_TG, PRIMARY_CARD_LINK } from "./ui";
-
-/* ---------- Block 2: Нам доверяют ---------- */
-const TRUST_ITEMS = [
-  "Выпуск карт с сопровождением под ключ",
-  "Доставка по всей России",
-  "Поддержка на русском языке",
-  "Именные карты",
-  "Выпуск в Кыргызстане",
-  "Международные платежи",
-];
-
-export function TrustSection() {
-  return (
-    <section className="bg-white py-14 md:py-20">
-      <Container>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {TRUST_ITEMS.map((item) => (
-            <div key={item} className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/60 px-5 py-5">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[var(--brand-blue)] font-bold">
-                ✓
-              </span>
-              <span className="text-sm md:text-base font-medium text-slate-700">{item}</span>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ---------- Block 5: Оплачивайте по всему миру ---------- */
-const MERCHANTS = ["Booking", "Airbnb", "Netflix", "Spotify", "ChatGPT", "Google", "Google Ads", "Amazon", "Steam", "Zoom", "Canva", "Adobe"];
-
-export function MerchantsSection() {
-  return (
-    <section className="bg-slate-50 py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Оплачивайте зарубежные сервисы и покупки" />
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {MERCHANTS.map((m) => (
-            <div
-              key={m}
-              className="flex h-20 items-center justify-center rounded-2xl border border-slate-200 bg-white text-sm md:text-base font-semibold text-slate-600 shadow-sm"
-            >
-              {m}
-            </div>
-          ))}
-        </div>
-        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-slate-400">
-          Работа отдельных сервисов зависит от их собственных ограничений на момент оплаты.
-        </p>
-      </Container>
-    </section>
-  );
-}
-
-/* ---------- Block 6: Где работает карта ---------- */
-const COVERAGE_COUNTRIES = ["Европа", "США", "ОАЭ", "Турция", "Казахстан", "Грузия", "Армения", "Таиланд", "Южная Корея"];
-
+/* ---------- 9. География (#coverage) ---------- */
 export function CoverageSection() {
   return (
-    <section id="coverage" className="bg-white py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Где работает карта" subtitle="Карта принимается для платежей по всему миру." />
-
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="rounded-3xl border border-slate-100 bg-slate-50/60 p-6 md:p-10">
-            <WorldMap />
+    <section
+      id="coverage"
+      style={{
+        position: "relative",
+        background: "radial-gradient(120% 100% at 25% 0,#13265c 0%,#0b1736 48%,#070d1f 100%)",
+        padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          top: "8%",
+          left: "50%",
+          width: 620,
+          height: 620,
+          borderRadius: "50%",
+          background: "radial-gradient(circle,rgba(79,139,255,.2),transparent 62%)",
+          filter: "blur(34px)",
+          transform: "translateX(-50%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div style={{ position: "relative", maxWidth: 1180, margin: "0 auto" }}>
+        <SectionHead
+          theme="dark"
+          kicker="Где работает карта"
+          title="Оплата по всему миру"
+          subtitle="Принимается везде, где работают Visa и Mastercard — в магазинах, онлайн-сервисах, отелях и банкоматах."
+        />
+        {/* TODO(design): заменить точечный паттерн на реальную гео-карту с подсветкой стран. */}
+        <Reveal
+          style={{
+            position: "relative",
+            borderRadius: 24,
+            overflow: "hidden",
+            background: "linear-gradient(180deg,rgba(13,26,58,.6),rgba(7,13,31,.6))",
+            border: "1px solid rgba(127,160,232,.16)",
+            padding: "clamp(28px,4vw,44px)",
+            boxShadow: "0 24px 60px rgba(0,0,0,.4)",
+          }}
+        >
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: "radial-gradient(circle,rgba(127,160,232,.35) 1.1px,transparent 1.4px)",
+              backgroundSize: "22px 22px",
+              maskImage: "radial-gradient(140% 120% at 50% 40%,#000 35%,transparent 78%)",
+              WebkitMaskImage: "radial-gradient(140% 120% at 50% 40%,#000 35%,transparent 78%)",
+              opacity: 0.5,
+            }}
+          />
+          <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
+            {COVERAGE.map((c) => (
+              <div
+                key={c.name}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "11px 18px",
+                  borderRadius: 14,
+                  background: "rgba(255,255,255,.05)",
+                  border: "1px solid rgba(127,160,232,.22)",
+                }}
+              >
+                <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#5ee0a0", boxShadow: "0 0 10px #5ee0a0", flex: "none" }} />
+                <span style={{ color: "#fff", fontWeight: 600, fontSize: 15.5 }}>{c.name}</span>
+                <span style={{ color: "#7f93bf", fontSize: 12.5, fontWeight: 500 }}>{c.sub}</span>
+              </div>
+            ))}
           </div>
-
-          <div>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {COVERAGE_COUNTRIES.map((c) => (
-                <div key={c} className="flex items-center gap-2 rounded-xl bg-blue-50 px-4 py-3 text-sm md:text-base font-medium text-[var(--brand-navy)]">
-                  <span className="text-green-500">✅</span> {c}
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm md:text-base font-medium text-red-600">
-              <span>❌</span> Карта не работает на территории РФ
+          <div style={{ position: "relative", display: "flex", justifyContent: "center", marginTop: 26 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "13px 22px", borderRadius: 14, background: "rgba(235,70,70,.1)", border: "1px solid rgba(235,70,70,.35)" }}>
+              <span style={{ flex: "none", width: 24, height: 24, borderRadius: "50%", background: "rgba(235,70,70,.18)", border: "1px solid rgba(235,70,70,.5)", display: "flex", alignItems: "center", justifyContent: "center", color: "#ff8a8a", fontWeight: 800, fontSize: 13 }}>
+                ✕
+              </span>
+              <span style={{ color: "#ffc9c9", fontWeight: 600, fontSize: 15 }}>Не работает на территории РФ</span>
             </div>
           </div>
-        </div>
-      </Container>
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-function WorldMap() {
-  return (
-    <svg viewBox="0 0 600 300" className="w-full" aria-hidden>
-      <rect width="600" height="300" rx="24" fill="#EFF6FF" />
-      {[
-        [80, 60], [150, 100], [220, 70], [300, 120], [360, 90], [430, 140],
-        [480, 70], [520, 150], [200, 200], [350, 210], [120, 180], [450, 220],
-      ].map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 26 : 18} fill="#BFDBFE" opacity="0.7" />
-      ))}
-      {[
-        [80, 60], [220, 70], [430, 140], [520, 150], [350, 210], [120, 180], [300, 120],
-      ].map(([x, y], i) => (
-        <circle key={`p-${i}`} cx={x} cy={y} r={5} fill="var(--brand-blue)" />
-      ))}
-    </svg>
-  );
-}
-
-/* ---------- Block 7: Почему выбирают карты Кыргызстана ---------- */
-const WHY_KG = [
-  "Зарубежный банковский счёт",
-  "Выпуск без поездки в Кыргызстан",
-  "Российский номер телефона подходит",
-  "Пополнение из российских банков",
-  "Международные платежи",
-  "SWIFT-переводы",
-  "Мультивалютные счета",
-  "Мобильное приложение банка",
-];
-
+/* ---------- 7. Почему карты Кыргызстана ---------- */
 export function WhyKyrgyzstanSection() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Почему выбирают карты Кыргызстана" />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {WHY_KG.map((item) => (
-            <div key={item} className="rounded-2xl bg-white border border-slate-100 p-6 text-sm md:text-base font-medium text-slate-700 shadow-sm">
-              {item}
+    <section style={{ background: "#f5f7fb", padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <SectionHead kicker="Почему карты Кыргызстана" title="Полноценный зарубежный счёт — удалённо" />
+        <Reveal className="grid3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18 }}>
+          {WHY_KG.map((w) => (
+            <div key={w.t} style={{ background: "#fff", borderRadius: 18, padding: 24, border: "1px solid #e7ebf3", boxShadow: "0 4px 16px rgba(16,30,70,.04)" }}>
+              <div style={{ width: 44, height: 44, borderRadius: 13, background: "linear-gradient(135deg,#eaf1ff,#dbe7ff)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
+                <Icon name={w.icon} color="#2f5fe0" size={22} />
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", margin: "0 0 8px" }}>
+                <h3 style={{ fontWeight: 700, fontSize: 16.5, color: "#0e1730", margin: 0, lineHeight: 1.25 }}>{w.t}</h3>
+                {w.isNew && (
+                  <span style={{ flex: "none", padding: "3px 9px", borderRadius: 100, background: "linear-gradient(135deg,#4f8bff,#7b6bff)", color: "#fff", fontSize: 10.5, fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase" }}>
+                    Новинка
+                  </span>
+                )}
+              </div>
+              <p style={{ fontSize: 14, lineHeight: 1.55, color: "#5b6479", margin: 0 }}>{w.d}</p>
             </div>
           ))}
-        </div>
-      </Container>
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ---------- Block 8: Что входит в стоимость ---------- */
-const INCLUDED = [
-  "Проверка документов",
-  "Подготовка банковской анкеты",
-  "Передача документов в банк",
-  "Выпуск карты",
-  "Доставка карты в Россию",
-  "Курьерская доставка клиенту",
-  "Консультации менеджера",
-  "Помощь при активации",
-];
-
+/* ---------- 8. Что входит в стоимость ---------- */
 export function IncludedSection() {
   return (
-    <section className="bg-white py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Что входит в стоимость" />
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {INCLUDED.map((item) => (
-            <div key={item} className="flex items-start gap-3 rounded-xl border border-slate-100 p-4 text-sm md:text-base text-slate-700">
-              <span className="text-[var(--brand-blue)] font-bold">✓</span>
-              {item}
+    <section style={{ background: "#fff", padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)", borderTop: "1px solid #eef1f7" }}>
+      <div className="splitgrid" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: ".85fr 1.15fr", gap: "clamp(36px,5vw,64px)", alignItems: "center" }}>
+        <Reveal>
+          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#3f7bff", margin: "0 0 12px" }}>Что входит в стоимость</p>
+          <h2 style={{ fontWeight: 800, fontSize: "clamp(28px,3.6vw,42px)", color: "#0e1730", margin: "0 0 18px", letterSpacing: "-.025em" }}>Пакет «под ключ» — без скрытых доплат</h2>
+          <p style={{ fontSize: 16.5, lineHeight: 1.6, color: "#5b6479", margin: "0 0 24px" }}>Одна стоимость покрывает весь путь — от проверки документов до получения карты в руки.</p>
+          <a href="#cards" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, padding: "14px 28px", borderRadius: 13, background: "#0e1730", color: "#fff", fontWeight: 600, fontSize: 15.5 }}>Выбрать карту →</a>
+        </Reveal>
+        <Reveal style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+          {INCLUDED.map((it) => (
+            <div key={it} style={{ display: "flex", alignItems: "center", gap: 13, background: "#f7f9fc", border: "1px solid #eef1f7", borderRadius: 14, padding: "16px 18px" }}>
+              <span style={{ flex: "none", width: 26, height: 26, borderRadius: "50%", background: "rgba(63,123,255,.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#3f7bff", fontWeight: 800, fontSize: 13 }}>✓</span>
+              <span style={{ color: "#0e1730", fontWeight: 600, fontSize: 14.5 }}>{it}</span>
             </div>
           ))}
-        </div>
-      </Container>
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ---------- Block 9: Как проходит оформление ---------- */
-const STEPS = [
-  "Выбираете карту",
-  "Оплачиваете выпуск",
-  "Передаёте документы",
-  "Отправляем анкету в банк",
-  "Банк выпускает карту",
-  "Получаете SMS и доступ в мобильное приложение",
-  "Карта доставляется в Россию",
-  "Курьер привозит карту",
-];
-
+/* ---------- 8 (таймлайн). 8 шагов до карты ---------- */
 export function ProcessSection() {
   return (
-    <section id="process" className="bg-slate-50 py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Как проходит оформление" />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {STEPS.map((step, i) => (
-            <div key={step} className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--brand-navy)] text-sm font-bold text-white">
-                {i + 1}
-              </span>
-              <p className="mt-4 text-sm md:text-base font-medium text-slate-700">{step}</p>
+    <section id="steps" style={{ background: "#f5f7fb", padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <SectionHead kicker="Как проходит оформление" title="8 шагов до карты в руках" />
+        <Reveal className="grid4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18 }}>
+          {STEPS.map((s, i) => (
+            <div key={s.t} style={{ position: "relative", background: "#fff", borderRadius: 18, padding: 24, border: "1px solid #e7ebf3", boxShadow: "0 4px 16px rgba(16,30,70,.04)" }}>
+              <div style={{ fontWeight: 800, fontSize: 15, color: "#fff", width: 38, height: 38, borderRadius: 11, background: "linear-gradient(135deg,#4f8bff,#2f5fe0)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, boxShadow: "0 8px 20px rgba(63,123,255,.35)" }}>{i + 1}</div>
+              <h3 style={{ fontWeight: 700, fontSize: 16, color: "#0e1730", margin: "0 0 6px" }}>{s.t}</h3>
+              <p style={{ fontSize: 13.5, lineHeight: 1.5, color: "#5b6479", margin: 0 }}>{s.d}</p>
             </div>
           ))}
-        </div>
-        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-slate-500">
-          Средний срок выпуска составляет 10–14 рабочих дней.
-          <br />
-          Срок ориентировочный и зависит от загрузки банка, логистики и праздничных дней.
-        </p>
-      </Container>
+        </Reveal>
+        <Reveal style={{ display: "flex", justifyContent: "center", marginTop: 28 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 26px", borderRadius: 16, background: "#fff", border: "1px solid #e7ebf3", boxShadow: "0 8px 26px rgba(16,30,70,.06)" }}>
+            <span style={{ fontWeight: 800, fontSize: 24, color: "#0e1730" }}>10–14</span>
+            <span style={{ fontSize: 14.5, color: "#5b6479", lineHeight: 1.4 }}>
+              рабочих дней — средний срок выпуска.<br />
+              <span style={{ color: "#9aa3b5", fontSize: 13 }}>Срок ориентировочный.</span>
+            </span>
+          </div>
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ---------- Block 10: Документы ---------- */
-const DOCUMENTS = ["Паспорт РФ", "Загранпаспорт", "ИНН", "Email", "Номер телефона", "Адрес проживания"];
-
+/* ---------- 10. Документы ---------- */
 export function DocumentsSection() {
   return (
-    <section className="bg-white py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Документы для оформления" />
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {DOCUMENTS.map((doc) => (
-            <div key={doc} className="rounded-xl bg-blue-50 px-4 py-5 text-center text-sm md:text-base font-medium text-[var(--brand-navy)]">
-              {doc}
+    <section style={{ background: "#fff", padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)", borderTop: "1px solid #eef1f7" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <SectionHead kicker="Документы" title="Что нужно для оформления" />
+        <Reveal className="grid6" style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 14 }}>
+          {DOCUMENTS.map((d) => (
+            <div key={d.t} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: "center", background: "#f7f9fc", border: "1px solid #eef1f7", borderRadius: 16, padding: "22px 14px" }}>
+              <span style={{ width: 46, height: 46, borderRadius: 13, background: "#fff", border: "1px solid #e7ebf3", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(16,30,70,.05)" }}>
+                <Icon name={d.icon} color="#2f5fe0" size={20} />
+              </span>
+              <span style={{ color: "#0e1730", fontWeight: 600, fontSize: 14 }}>{d.t}</span>
             </div>
           ))}
-        </div>
-      </Container>
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ---------- Block 11: Пополнение из России ---------- */
-const RU_BANKS = ["Сбер", "Т-Банк", "ВТБ", "Газпромбанк", "Альфа-Банк"];
-
-export function TopUpSection() {
+/* ---------- 10. Пополнение + Валюты ---------- */
+export function TopUpCurrenciesSection() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Пополнение из России" subtitle="Пополнение через СБП и банковские переводы." />
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
-          {RU_BANKS.map((bank) => (
-            <div key={bank} className="flex h-16 items-center justify-center rounded-2xl border border-slate-200 bg-white text-sm md:text-base font-semibold text-slate-600">
-              {bank}
-            </div>
-          ))}
-        </div>
-        <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-slate-500">
-          Для большинства банков зачисление происходит практически моментально.
-        </p>
-      </Container>
+    <section style={{ background: "#f5f7fb", padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)" }}>
+      <div className="splitgrid" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+        <Reveal style={{ background: "#fff", borderRadius: 22, padding: "clamp(28px,3.5vw,40px)", border: "1px solid #e7ebf3", boxShadow: "0 8px 26px rgba(16,30,70,.05)" }}>
+          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#3f7bff", margin: "0 0 12px" }}>Пополнение из РФ</p>
+          <h3 style={{ fontWeight: 700, fontSize: "clamp(22px,2.5vw,28px)", color: "#0e1730", margin: "0 0 14px", letterSpacing: "-.02em" }}>Через СБП и банковские переводы</h3>
+          <p style={{ fontSize: 15, lineHeight: 1.6, color: "#5b6479", margin: "0 0 24px" }}>Пополняйте счёт из привычных российских банков — деньги доходят на зарубежный счёт.</p>
+          {/* TODO(design): заменить текстовые названия банков на реальные SVG-логотипы. */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+            {BANKS.map((b) => (
+              <div key={b} style={{ padding: "11px 18px", borderRadius: 12, background: "#f7f9fc", border: "1px solid #eef1f7", color: "#0e1730", fontWeight: 600, fontSize: 14.5 }}>{b}</div>
+            ))}
+          </div>
+        </Reveal>
+        <Reveal style={{ background: "#fff", borderRadius: 22, padding: "clamp(28px,3.5vw,40px)", border: "1px solid #e7ebf3", boxShadow: "0 8px 26px rgba(16,30,70,.05)" }}>
+          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#3f7bff", margin: "0 0 12px" }}>Валюты</p>
+          <h3 style={{ fontWeight: 700, fontSize: "clamp(22px,2.5vw,28px)", color: "#0e1730", margin: "0 0 20px", letterSpacing: "-.02em" }}>Мультивалютные счета</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            {CURRENCIES.map((cu) => (
+              <div key={cu.c} style={{ display: "flex", alignItems: "center", gap: 11, background: "#f7f9fc", border: "1px solid #eef1f7", borderRadius: 13, padding: "13px 14px" }}>
+                <span style={{ flex: "none", width: 34, height: 34, borderRadius: "50%", background: "linear-gradient(135deg,#eaf1ff,#dbe7ff)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, color: "#2f5fe0" }}>{cu.s}</span>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 14, color: "#0e1730", lineHeight: 1.1 }}>{cu.c}</div>
+                  <div style={{ fontSize: 11.5, color: "#9aa3b5" }}>{cu.n}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ---------- Block 12: Валюты ---------- */
-const CURRENCIES = ["USD", "EUR", "RUB", "KZT", "AED", "KGS"];
-
-export function CurrenciesSection() {
-  return (
-    <section className="bg-white py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Мультивалютные счета" subtitle="Мультивалютные счета доступны внутри мобильного приложения." />
-        <div className="grid grid-cols-3 gap-4 sm:grid-cols-6">
-          {CURRENCIES.map((cur) => (
-            <div key={cur} className="flex h-20 items-center justify-center rounded-2xl border border-slate-100 bg-slate-50/60 text-lg md:text-xl font-bold text-[var(--brand-navy)]">
-              {cur}
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ---------- Block 13: Мобильное приложение ---------- */
-const APP_FEATURES = [
-  "Просмотр баланса",
-  "Переводы",
-  "Валютные счета",
-  "SWIFT",
-  "Выписки",
-  "Управление лимитами",
-  "Блокировка карты",
-  "Поддержка банка",
-];
-
+/* ---------- 11. Мобильное приложение ---------- */
 export function MobileAppSection() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24">
-      <Container className="grid items-center gap-12 lg:grid-cols-2">
-        <div className="order-2 lg:order-1">
-          <SectionTitle title="Мобильное приложение" center={false} />
-          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+    <section style={{ position: "relative", background: "radial-gradient(120% 100% at 80% 0,#13265c 0%,#0b1736 48%,#070d1f 100%)", padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)", overflow: "hidden" }}>
+      <div aria-hidden style={{ position: "absolute", bottom: "-10%", left: "-5%", width: 520, height: 520, borderRadius: "50%", background: "radial-gradient(circle,rgba(120,90,255,.22),transparent 62%)", filter: "blur(34px)", pointerEvents: "none" }} />
+      <div className="splitgrid" style={{ position: "relative", maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "1.05fr .95fr", gap: "clamp(36px,5vw,64px)", alignItems: "center" }}>
+        <Reveal>
+          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#7fa0e8", margin: "0 0 12px" }}>Мобильное приложение</p>
+          <h2 style={{ fontWeight: 800, fontSize: "clamp(28px,3.8vw,44px)", color: "#fff", margin: "0 0 18px", letterSpacing: "-.025em" }}>Весь банк — в вашем телефоне</h2>
+          <p style={{ fontSize: 16.5, lineHeight: 1.6, color: "rgba(220,228,245,.78)", margin: "0 0 26px" }}>Баланс, переводы, мультивалютные счета, SWIFT, выписки и лимиты — управляйте всем удалённо, с российского номера.</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {APP_FEATURES.map((f) => (
-              <li key={f} className="flex items-center gap-2.5 rounded-xl bg-white border border-slate-100 px-4 py-3 text-sm md:text-base text-slate-700">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--brand-blue)]" />
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="order-1 mx-auto flex justify-center lg:order-2">
-          <div className="relative h-[420px] w-[230px] rounded-[2rem] border-8 border-[var(--brand-navy)] bg-white shadow-2xl">
-            <div className="absolute inset-x-0 top-0 flex justify-center pt-4">
-              <div className="h-1.5 w-16 rounded-full bg-slate-200" />
-            </div>
-            <div className="flex h-full flex-col gap-3 px-4 pt-12">
-              <div className="rounded-xl bg-[var(--brand-navy)] p-4 text-white">
-                <p className="text-xs text-white/60">Баланс</p>
-                <p className="mt-1 text-2xl font-bold">$ 4 280.50</p>
+              <div key={f} style={{ display: "flex", alignItems: "center", gap: 13 }}>
+                <Check size={24} />
+                <span style={{ color: "#e4eaf8", fontSize: 15.5, fontWeight: 500 }}>{f}</span>
               </div>
-              {["USD", "EUR", "KGS"].map((c) => (
-                <div key={c} className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
-                  <span className="text-sm font-semibold text-slate-600">{c}</span>
-                  <span className="text-sm text-slate-400">•••</span>
-                </div>
-              ))}
+            ))}
+          </div>
+        </Reveal>
+        <Reveal style={{ display: "flex", justifyContent: "center" }}>
+          <PhoneMockup />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function PhoneMockup() {
+  return (
+    <div style={{ position: "relative", width: 300, maxWidth: "80vw", aspectRatio: "300 / 610", borderRadius: 42, background: "linear-gradient(150deg,#1a1d26,#0a0c12)", padding: 11, boxShadow: "0 40px 80px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08),0 0 60px rgba(79,139,255,.2)" }}>
+      <div style={{ position: "absolute", top: 22, left: "50%", transform: "translateX(-50%)", width: 104, height: 26, borderRadius: 14, background: "#000", zIndex: 3 }} />
+      <div style={{ width: "100%", height: "100%", borderRadius: 32, overflow: "hidden", background: "linear-gradient(180deg,#0e1730,#0a1326)", display: "flex", flexDirection: "column" }}>
+        <div style={{ padding: "40px 20px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ color: "#9fb0d4", fontSize: 11, marginBottom: 3 }}>Общий баланс</div>
+            <div style={{ fontWeight: 800, fontSize: 25, color: "#fff" }}>$ 12 480.50</div>
+          </div>
+          <span style={{ width: 34, height: 34, borderRadius: "50%", background: "linear-gradient(135deg,#4f8bff,#2f5fe0)" }} />
+        </div>
+        <div style={{ padding: "0 20px", display: "flex", gap: 9, marginBottom: 16 }}>
+          {[["USD", "8 120"], ["EUR", "3 240"], ["KGS", "94 000"]].map(([c, v]) => (
+            <div key={c} style={{ flex: 1, background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 13, padding: 11, textAlign: "center" }}>
+              <div style={{ color: "#fff", fontWeight: 700, fontSize: 13 }}>{c}</div>
+              <div style={{ color: "#9fb0d4", fontSize: 11 }}>{v}</div>
             </div>
+          ))}
+        </div>
+        <div style={{ margin: "0 20px 16px", background: "linear-gradient(135deg,#23262c,#0a0c12)", borderRadius: 14, padding: 15, boxShadow: "0 8px 20px rgba(0,0,0,.4)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+            <span style={{ color: "#d6b266", fontSize: 11, fontWeight: 700, letterSpacing: ".06em" }}>VISA INFINITE</span>
+            <span style={{ display: "flex" }}>
+              <span style={{ width: 18, height: 18, borderRadius: "50%", background: "#eb001b" }} />
+              <span style={{ width: 18, height: 18, borderRadius: "50%", background: "#f79e1b", marginLeft: -7, mixBlendMode: "screen" }} />
+            </span>
+          </div>
+          <div style={{ color: "rgba(255,255,255,.9)", fontSize: 13, letterSpacing: ".12em" }}>•••• 7704</div>
+        </div>
+        <div style={{ flex: 1, background: "#fff", borderRadius: "22px 22px 0 0", marginTop: "auto", padding: "18px 20px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+            <span style={{ fontWeight: 700, fontSize: 13.5, color: "#0e1730" }}>Операции</span>
+            <span style={{ fontSize: 11, color: "#3f7bff", fontWeight: 600 }}>SWIFT ↗</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 13 }}>
+            <span style={{ width: 32, height: 32, borderRadius: 10, background: "#eaf1ff", display: "flex", alignItems: "center", justifyContent: "center", color: "#2f5fe0", fontWeight: 800, fontSize: 13 }}>↑</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 12.5, fontWeight: 600, color: "#0e1730" }}>SWIFT-перевод</div>
+              <div style={{ fontSize: 10.5, color: "#9aa3b5" }}>Сегодня</div>
+            </div>
+            <span style={{ fontSize: 12.5, fontWeight: 700, color: "#0e1730" }}>−$1 200</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
+            <span style={{ width: 32, height: 32, borderRadius: 10, background: "#e9f7ef", display: "flex", alignItems: "center", justifyContent: "center", color: "#16996e", fontWeight: 800, fontSize: 13 }}>↓</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 12.5, fontWeight: 600, color: "#0e1730" }}>Пополнение СБП</div>
+              <div style={{ fontSize: 10.5, color: "#9aa3b5" }}>Вчера</div>
+            </div>
+            <span style={{ fontSize: 12.5, fontWeight: 700, color: "#16996e" }}>+$3 000</span>
           </div>
         </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ---------- Block 14: Для кого ---------- */
-const AUDIENCE = ["Путешественникам", "Предпринимателям", "Студентам", "Фрилансерам", "Специалистам, оплачивающим зарубежные сервисы"];
-
-export function AudienceSection() {
-  return (
-    <section className="bg-white py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Для кого подойдут карты" />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {AUDIENCE.map((item) => (
-            <div key={item} className="rounded-2xl border border-slate-100 bg-slate-50/60 p-6 text-center text-sm md:text-base font-medium text-slate-700">
-              {item}
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ---------- Block 15: Почему оформление безопасно ---------- */
-const SAFETY = [
-  "Счёт открывается на ваше имя",
-  "Карта выпускается официально в Кыргызстане",
-  "Доступ к счёту получаете только вы",
-  "Карта именная",
-  "Все операции проходят через банковскую инфраструктуру",
-  "Сопровождение до получения карты",
-];
-
-export function SafetySection() {
-  return (
-    <section className="bg-slate-50 py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Почему нам можно доверять" />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {SAFETY.map((item) => (
-            <div key={item} className="flex items-start gap-3 rounded-2xl bg-white border border-slate-100 p-5 text-sm md:text-base text-slate-700 shadow-sm">
-              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[var(--brand-blue)]">
-                🔒
-              </span>
-              {item}
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ---------- Shared collapsible FAQ ---------- */
-function FaqList({ items }: { items: { q: string; a: string }[] }) {
-  const [open, setOpen] = useState<number | null>(0);
-  return (
-    <div className="divide-y divide-slate-100 rounded-2xl border border-slate-100 bg-white">
-      {items.map((item, i) => (
-        <div key={item.q}>
-          <button
-            onClick={() => setOpen(open === i ? null : i)}
-            className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm md:text-base font-semibold text-[var(--brand-navy)]"
-          >
-            {item.q}
-            <span className={`shrink-0 transition-transform ${open === i ? "rotate-45" : ""}`}>+</span>
-          </button>
-          {open === i && <p className="px-5 pb-5 text-sm md:text-base text-slate-500">{item.a}</p>}
-        </div>
-      ))}
+      </div>
     </div>
   );
 }
 
-/* ---------- Block 16: Частые опасения ---------- */
-const CONCERNS = [
-  { q: "Это легально?", a: "Да. Карта выпускается официальным банком Кыргызстана на ваше имя, все операции проходят через банковскую инфраструктуру." },
-  { q: "Нужно ли ехать в Кыргызстан?", a: "Нет, выпуск карты происходит полностью дистанционно — без поездки в Кыргызстан." },
-  { q: "Почему оформление идёт через партнёра?", a: "Партнёр сопровождает заполнение анкеты, проверку документов и логистику доставки, упрощая процесс для клиента." },
-  { q: "Что происходит после оплаты?", a: "После оплаты вы передаёте документы, мы готовим и отправляем анкету в банк, далее банк выпускает карту." },
-  { q: "Как понять, что это не мошенники?", a: "Карта выпускается официальным банком, счёт открывается на ваше имя, доступ к нему получаете только вы." },
-  { q: "Почему сроки могут отличаться?", a: "Срок зависит от загрузки банка, логистики и праздничных дней — в среднем 10–14 рабочих дней." },
-  { q: "Можно ли оформить карту из другого города?", a: "Да, оформление доступно из любого города России — доставка осуществляется курьером." },
-  { q: "Нужно ли уведомлять ФНС?", a: "Обязанность по уведомлению об открытии зарубежного счёта определяется законодательством РФ — рекомендуем уточнить актуальные требования." },
-];
-
-export function ConcernsSection() {
+/* ---------- 12. Кому подойдут ---------- */
+export function AudienceSection() {
   return (
-    <section className="bg-white py-16 md:py-24">
-      <Container className="max-w-3xl">
-        <SectionTitle title="Частые опасения" />
-        <FaqList items={CONCERNS} />
-      </Container>
+    <section style={{ background: "#fff", padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <SectionHead kicker="Кому подойдут карты" title="Создано под ваши задачи" />
+        <Reveal className="grid5" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 16 }}>
+          {AUDIENCES.map((a) => (
+            <div key={a.t} style={{ background: "#f7f9fc", border: "1px solid #eef1f7", borderRadius: 18, padding: "24px 20px" }}>
+              <div style={{ width: 44, height: 44, borderRadius: 13, background: "linear-gradient(135deg,#4f8bff,#2f5fe0)", marginBottom: 16, boxShadow: "0 8px 20px rgba(63,123,255,.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Icon name={a.icon} color="#fff" size={22} />
+              </div>
+              <h3 style={{ fontWeight: 700, fontSize: 15.5, color: "#0e1730", margin: "0 0 7px", lineHeight: 1.25 }}>{a.t}</h3>
+              <p style={{ fontSize: 13, lineHeight: 1.5, color: "#5b6479", margin: 0 }}>{a.d}</p>
+            </div>
+          ))}
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ---------- Block 18: Отзывы ---------- */
-const REVIEWS = [
-  { name: "Артём", city: "Москва", card: "Visa Infinite", text: "Оформил карту для поездок — лимит и Lounge закрывают все вопросы. Доставка пришла за 12 дней." },
-  { name: "Дарья", city: "Санкт-Петербург", card: "Mastercard Gold", text: "Удобно, что счёт в евро — оплачиваю европейские сервисы без проблем." },
-  { name: "Ильяс", city: "Казань", card: "Visa Gold", text: "Подключил Google Pay сразу после активации. Поддержка отвечала быстро на каждом шаге." },
-];
-
-export function ReviewsSection() {
+/* ---------- 13. Безопасность ---------- */
+export function SecuritySection() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24">
-      <Container>
-        <SectionTitle title="Отзывы клиентов" />
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {REVIEWS.map((r) => (
-            <div key={r.name} className="rounded-2xl bg-white border border-slate-100 p-6 shadow-sm">
-              <p className="text-sm md:text-base text-slate-600">«{r.text}»</p>
-              <div className="mt-5 flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--brand-navy)] text-sm font-bold text-white">
-                  {r.name[0]}
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-[var(--brand-navy)]">{r.name}, {r.city}</p>
-                  <p className="text-xs text-slate-400">{r.card}</p>
-                </div>
+    <section style={{ background: "#f5f7fb", padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <SectionHead kicker="Почему оформление безопасно" title="Официально и на ваше имя" />
+        <Reveal className="grid3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18 }}>
+          {SECURITY.map((s) => (
+            <div key={s.t} style={{ display: "flex", gap: 15, background: "#fff", border: "1px solid #e7ebf3", borderRadius: 18, padding: 24, boxShadow: "0 4px 16px rgba(16,30,70,.04)" }}>
+              <span style={{ flex: "none", width: 42, height: 42, borderRadius: 12, background: "rgba(22,153,110,.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Icon name={s.icon} color="#16996e" size={21} />
+              </span>
+              <div>
+                <h3 style={{ fontWeight: 700, fontSize: 16, color: "#0e1730", margin: "0 0 6px", lineHeight: 1.25 }}>{s.t}</h3>
+                <p style={{ fontSize: 13.5, lineHeight: 1.5, color: "#5b6479", margin: 0 }}>{s.d}</p>
               </div>
             </div>
           ))}
-        </div>
-      </Container>
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ---------- Block 19: FAQ ---------- */
-const FAQ = [
-  { q: "Работает ли карта в Европе?", a: "Да, карта принимается для оплаты в Европе, США, ОАЭ, Турции и других странах из списка покрытия." },
-  { q: "Можно ли оплачивать подписки?", a: "Да, карта подходит для оплаты подписок Netflix, Spotify, ChatGPT и других сервисов." },
-  { q: "Можно ли получать SWIFT?", a: "Да, для карт с поддержкой SWIFT доступны входящие и исходящие международные переводы." },
-  { q: "Нужно ли уведомлять ФНС?", a: "Это зависит от требований законодательства РФ к зарубежным счетам — рекомендуем проверить актуальные правила." },
-  { q: "Какие документы нужны?", a: "Паспорт РФ, загранпаспорт, ИНН, email, номер телефона и адрес проживания." },
-  { q: "Сколько занимает выпуск?", a: "В среднем 10–14 рабочих дней с учётом логистики и загрузки банка." },
-  { q: "Почему карта может прийти позже?", a: "Срок доставки зависит от загрузки банка, праздничных дней и работы курьерской службы." },
-  { q: "Можно ли открыть счёт в евро?", a: "Да, мультивалютные счета, включая евро, доступны в мобильном приложении банка." },
-  { q: "Можно ли привязать карту к Google Pay?", a: "Да, все карты линейки поддерживают Google Pay." },
-];
-
-export function FaqSection() {
+/* ---------- 15. После оформления вы получаете ---------- */
+export function ClientGetsSection() {
   return (
-    <section id="faq" className="bg-white py-16 md:py-24">
-      <Container className="max-w-3xl">
-        <SectionTitle title="Часто задаваемые вопросы" />
-        <FaqList items={FAQ} />
-      </Container>
+    <section style={{ background: "#fff", padding: "clamp(64px,9vw,110px) clamp(20px,5vw,56px)" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <SectionHead kicker="Что получает клиент" title="После оформления вы получаете" />
+
+        {/* Реальные фото конверта и карты */}
+        <Reveal className="photopair" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 22 }}>
+          <PhotoTile src="/photos/photo-envelope.jpg" alt="Премиальный конверт с картой" caption="Премиальный конверт" />
+          <PhotoTile src="/photos/photo-card.jpg" alt="Именная карта на руках" caption="Карта на руках" />
+        </Reveal>
+
+        <Reveal className="grid4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+          {CLIENT_GETS.map((c) => (
+            <div key={c.t} style={{ textAlign: "center", background: "#f7f9fc", border: "1px solid #eef1f7", borderRadius: 18, padding: "26px 18px" }}>
+              <div style={{ width: 48, height: 48, borderRadius: 14, background: "linear-gradient(135deg,#eaf1ff,#dbe7ff)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+                <Icon name={c.icon} color="#2f5fe0" size={23} />
+              </div>
+              <h3 style={{ fontWeight: 700, fontSize: 15, color: "#0e1730", margin: "0 0 6px" }}>{c.t}</h3>
+              <p style={{ fontSize: 12.5, lineHeight: 1.5, color: "#5b6479", margin: 0 }}>{c.d}</p>
+            </div>
+          ))}
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ---------- Block 20: Финальный CTA ---------- */
-export function FinalCtaSection() {
+function PhotoTile({ src, alt, caption }: { src: string; alt: string; caption: string }) {
   return (
-    <section className="bg-[var(--brand-navy)] py-16 md:py-24">
-      <Container className="text-center">
-        <h2 className="text-2xl md:text-4xl font-bold text-white">Оформите международную карту уже сегодня</h2>
-        <p className="mx-auto mt-3 max-w-xl text-base md:text-lg text-slate-300">
-          Оплата онлайн, доставка по России и сопровождение на каждом этапе.
-        </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <PrimaryButton href={PRIMARY_CARD_LINK}>Оформить карту</PrimaryButton>
-          <SecondaryButton href={SUPPORT_TG} className="border-white/20 bg-transparent text-white hover:bg-white/10 hover:border-white/30">
-            Задать вопрос
-          </SecondaryButton>
-        </div>
-      </Container>
-    </section>
+    <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", minHeight: 300, background: "#f0f3f8" }}>
+      <Image src={src} alt={alt} fill loading="lazy" sizes="(max-width: 620px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+      <span style={{ position: "absolute", bottom: 16, left: 16, padding: "7px 14px", borderRadius: 100, background: "rgba(10,17,40,.72)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", color: "#eaf0ff", fontSize: 12.5, fontWeight: 600 }}>
+        {caption}
+      </span>
+    </div>
   );
 }

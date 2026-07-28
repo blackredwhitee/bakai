@@ -1,53 +1,45 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import ServicesSection from "@/components/ServicesSection";
 import CardsSection from "@/components/CardsSection";
 import ComparisonSection from "@/components/ComparisonSection";
-import PhotosSection from "@/components/PhotosSection";
+import Faq from "@/components/Faq";
+import FinalCta from "@/components/FinalCta";
 import Footer from "@/components/Footer";
 import {
-  TrustSection,
-  MerchantsSection,
   CoverageSection,
   WhyKyrgyzstanSection,
   IncludedSection,
   ProcessSection,
   DocumentsSection,
-  TopUpSection,
-  CurrenciesSection,
+  TopUpCurrenciesSection,
   MobileAppSection,
   AudienceSection,
-  SafetySection,
-  ConcernsSection,
-  ReviewsSection,
-  FaqSection,
-  FinalCtaSection,
+  SecuritySection,
+  ClientGetsSection,
 } from "@/components/Sections";
 
 export default function Home() {
   return (
     <>
       <Header />
-      <main className="flex-1">
+      <main>
         <Hero />
-        <TrustSection />
+        <ServicesSection />
         <CardsSection />
         <ComparisonSection />
-        <MerchantsSection />
         <CoverageSection />
         <WhyKyrgyzstanSection />
         <IncludedSection />
         <ProcessSection />
         <DocumentsSection />
-        <TopUpSection />
-        <CurrenciesSection />
+        <TopUpCurrenciesSection />
         <MobileAppSection />
         <AudienceSection />
-        <SafetySection />
-        <ConcernsSection />
-        <PhotosSection />
-        <ReviewsSection />
-        <FaqSection />
-        <FinalCtaSection />
+        <SecuritySection />
+        <Faq />
+        <ClientGetsSection />
+        <FinalCta />
       </main>
       <Footer />
     </>
