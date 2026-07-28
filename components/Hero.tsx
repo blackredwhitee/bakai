@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
 import { SUPPORT_TG } from "@/content/site";
+import { asset } from "@/lib/asset";
 
 export default function Hero() {
   return (
@@ -190,7 +191,7 @@ export default function Hero() {
             }}
           />
           <Image
-            src="/cards/visa-infinite.png"
+            src={asset("/cards/visa-infinite.png")}
             alt="Международные карты Visa Infinite"
             width={700}
             height={470}

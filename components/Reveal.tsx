@@ -46,7 +46,15 @@ export default function Reveal({
       { threshold: 0.12, rootMargin: "0px 0px -7% 0px" },
     );
     observer.observe(el);
-    return () => observer.disconnect();
+
+    // Подстраховка: если наблюдатель по какой-то причине не сработал
+    // (throttling вкладки, редкие браузеры) — показываем через таймаут.
+    const fallback = window.setTimeout(() => setVisible(true), 1500);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   return (

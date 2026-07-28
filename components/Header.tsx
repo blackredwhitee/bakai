@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/content/site";
 import { useEscape, useLockScroll } from "@/lib/hooks";
+import { asset } from "@/lib/asset";
 
 const CTA_GRADIENT = "linear-gradient(135deg,#4f8bff,#2f5fe0)";
 
@@ -33,7 +34,7 @@ export default function Header() {
       }}
     >
       <a href="#top" style={{ display: "flex", alignItems: "center", gap: 11, textDecoration: "none" }}>
-        <Image src="/talkbank-logo.svg" alt="TalkBank" width={132} height={30} style={{ height: 30, width: "auto", display: "block" }} priority />
+        <Image src={asset("/talkbank-logo.svg")} alt="TalkBank" width={132} height={30} style={{ height: 30, width: "auto", display: "block" }} priority />
       </a>
 
       <div className="navlinks" style={{ display: "flex", alignItems: "center", gap: 30 }}>

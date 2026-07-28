@@ -80,6 +80,13 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${ttFirs.variable} ${ttFirs.className}`}>
       <body>
+        {/* До первой отрисовки помечаем, что JS есть — тогда reveal скрывает
+            и анимирует контент. Без JS класс не ставится и всё видно сразу. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "try{document.documentElement.classList.add('js-reveal')}catch(e){}",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}

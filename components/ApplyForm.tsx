@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CARD_SELECT_OPTIONS } from "@/content/cards";
-import { POLICY_URL } from "@/content/site";
+import { POLICY_URL, SUPPORT_TG } from "@/content/site";
 
 const inputStyle: React.CSSProperties = {
   width: "100%",
@@ -34,9 +34,34 @@ export default function ApplyForm() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
 
+  // Фолбэк для статического хостинга (напр. GitHub Pages), где серверного
+  // роута нет: открываем Telegram с готовым текстом заявки. Токен не нужен.
+  function telegramFallback() {
+    const text = [
+      "🆕 Заявка с сайта карт",
+      "",
+      `Имя: ${name.trim()}`,
+      `Связь: ${contact.trim()}`,
+      `Карта: ${card}`,
+      comment.trim() ? `Комментарий: ${comment.trim()}` : "",
+      "",
+      typeof window !== "undefined" ? `Страница: ${window.location.href}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+    if (typeof window !== "undefined") {
+      window.open(`${SUPPORT_TG}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
+    }
+  }
+
   async function submit() {
     if (!name.trim() || !contact.trim()) {
       setError("Укажите имя и способ связи — телефон или Telegram.");
+      return;
+    }
+    // honeypot заполнен — тихо «успешно», ничего не делаем
+    if (company) {
+      setSent(true);
       return;
     }
     setSending(true);
@@ -54,7 +79,16 @@ export default function ApplyForm() {
           pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
         }),
       });
-      const data = (await res.json()) as { ok: boolean; error?: string };
+
+      // Эндпоинта нет (статический билд) — уходим в Telegram-фолбэк.
+      if (res.status === 404) {
+        telegramFallback();
+        setSending(false);
+        setSent(true);
+        return;
+      }
+
+      const data = (await res.json().catch(() => ({ ok: false }))) as { ok: boolean; error?: string };
       if (!res.ok || !data.ok) {
         setError(data.error || "Не удалось отправить заявку. Попробуйте ещё раз.");
         setSending(false);
@@ -63,8 +97,10 @@ export default function ApplyForm() {
       setSending(false);
       setSent(true);
     } catch {
+      // Сеть недоступна / статический хостинг — фолбэк в Telegram.
+      telegramFallback();
       setSending(false);
-      setError("Не удалось отправить заявку. Напишите нам в Telegram — ссылка слева.");
+      setSent(true);
     }
   }
 

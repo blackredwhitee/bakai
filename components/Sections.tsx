@@ -2,6 +2,9 @@ import Image from "next/image";
 import Reveal from "./Reveal";
 import { SectionHead, Check } from "./ui";
 import { Icon } from "./icons";
+import { BankTile } from "./brands";
+import WorldMap from "./WorldMap";
+import { asset } from "@/lib/asset";
 import {
   COVERAGE, WHY_KG, INCLUDED, STEPS, DOCUMENTS, BANKS, CURRENCIES,
   APP_FEATURES, AUDIENCES, SECURITY, CLIENT_GETS,
@@ -41,7 +44,6 @@ export function CoverageSection() {
           title="Оплата по всему миру"
           subtitle="Принимается везде, где работают Visa и Mastercard — в магазинах, онлайн-сервисах, отелях и банкоматах."
         />
-        {/* TODO(design): заменить точечный паттерн на реальную гео-карту с подсветкой стран. */}
         <Reveal
           style={{
             position: "relative",
@@ -53,18 +55,19 @@ export function CoverageSection() {
             boxShadow: "0 24px 60px rgba(0,0,0,.4)",
           }}
         >
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: "radial-gradient(circle,rgba(127,160,232,.35) 1.1px,transparent 1.4px)",
-              backgroundSize: "22px 22px",
-              maskImage: "radial-gradient(140% 120% at 50% 40%,#000 35%,transparent 78%)",
-              WebkitMaskImage: "radial-gradient(140% 120% at 50% 40%,#000 35%,transparent 78%)",
-              opacity: 0.5,
-            }}
-          />
+          {/* Реальная карта мира с подсветкой стран покрытия */}
+          <div style={{ position: "relative", maxWidth: 860, margin: "0 auto 22px" }}>
+            <WorldMap />
+          </div>
+          {/* Легенда */}
+          <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 18, justifyContent: "center", marginBottom: 24 }}>
+            <span style={{ display: "flex", alignItems: "center", gap: 8, color: "#9fb0d4", fontSize: 13, fontWeight: 500 }}>
+              <span style={{ width: 12, height: 12, borderRadius: 3, background: "rgba(94,224,160,.7)" }} /> Карта принимается
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: 8, color: "#9fb0d4", fontSize: 13, fontWeight: 500 }}>
+              <span style={{ width: 12, height: 12, borderRadius: 3, background: "rgba(235,70,70,.6)" }} /> Не работает (РФ)
+            </span>
+          </div>
           <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
             {COVERAGE.map((c) => (
               <div
@@ -211,10 +214,9 @@ export function TopUpCurrenciesSection() {
           <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#3f7bff", margin: "0 0 12px" }}>Пополнение из РФ</p>
           <h3 style={{ fontWeight: 700, fontSize: "clamp(22px,2.5vw,28px)", color: "#0e1730", margin: "0 0 14px", letterSpacing: "-.02em" }}>Через СБП и банковские переводы</h3>
           <p style={{ fontSize: 15, lineHeight: 1.6, color: "#5b6479", margin: "0 0 24px" }}>Пополняйте счёт из привычных российских банков — деньги доходят на зарубежный счёт.</p>
-          {/* TODO(design): заменить текстовые названия банков на реальные SVG-логотипы. */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
             {BANKS.map((b) => (
-              <div key={b} style={{ padding: "11px 18px", borderRadius: 12, background: "#f7f9fc", border: "1px solid #eef1f7", color: "#0e1730", fontWeight: 600, fontSize: 14.5 }}>{b}</div>
+              <BankTile key={b} name={b} />
             ))}
           </div>
         </Reveal>
@@ -400,7 +402,7 @@ export function ClientGetsSection() {
 function PhotoTile({ src, alt, caption }: { src: string; alt: string; caption: string }) {
   return (
     <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", minHeight: 300, background: "#f0f3f8" }}>
-      <Image src={src} alt={alt} fill loading="lazy" sizes="(max-width: 620px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+      <Image src={asset(src)} alt={alt} fill loading="lazy" sizes="(max-width: 620px) 100vw, 50vw" style={{ objectFit: "cover" }} />
       <span style={{ position: "absolute", bottom: 16, left: 16, padding: "7px 14px", borderRadius: 100, background: "rgba(10,17,40,.72)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", color: "#eaf0ff", fontSize: 12.5, fontWeight: 600 }}>
         {caption}
       </span>

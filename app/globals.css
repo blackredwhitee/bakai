@@ -64,22 +64,25 @@ body {
 .anim-floaty { animation: floaty 6s ease-in-out infinite; }
 .anim-glow { animation: glowpulse 7s ease-in-out infinite; }
 
-/* ---------- Reveal при скролле (класс переключает useReveal) ---------- */
-.reveal {
+/* ---------- Reveal при скролле (класс переключает Reveal) ----------
+   Прогрессивное улучшение: скрываем и анимируем только когда есть JS
+   (класс .js-reveal ставится на <html> инлайн-скриптом до отрисовки).
+   Без JS контент виден сразу — важно для SEO и отказоустойчивости. */
+.js-reveal .reveal {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.75s cubic-bezier(0.2, 0.7, 0.2, 1),
     transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
   will-change: opacity, transform;
 }
-.reveal.is-visible {
+.js-reveal .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
 
 /* Уважаем настройку пользователя: никаких движущихся эффектов */
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .js-reveal .reveal {
     opacity: 1;
     transform: none;
     transition: none;

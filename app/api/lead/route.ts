@@ -23,18 +23,49 @@ const LeadSchema = z.object({
   pageUrl: z.string().url().max(500).optional(),
 });
 
-// Простой in-memory rate-limit по IP (на инстанс). Для нескольких инстансов
-// заменить на общий стор (Redis/Upstash).
 const WINDOW_MS = 60_000;
+const WINDOW_S = 60;
 const MAX_REQUESTS = 5;
+
+// In-memory (на инстанс) — дефолт для одного процесса.
 const hits = new Map<string, number[]>();
 
-function rateLimited(ip: string): boolean {
+function rateLimitedMemory(ip: string): boolean {
   const now = Date.now();
   const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
   recent.push(now);
   hits.set(ip, recent);
   return recent.length > MAX_REQUESTS;
+}
+
+// Общий стор для нескольких инстансов — Upstash Redis по REST (если заданы env).
+// Атомарно: INCR + EXPIRE на первый инкремент.
+async function rateLimitedUpstash(ip: string): Promise<boolean | null> {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null; // не настроено — используем in-memory
+  try {
+    const key = `lead:rl:${ip}`;
+    const res = await fetch(`${url}/pipeline`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify([
+        ["INCR", key],
+        ["EXPIRE", key, String(WINDOW_S), "NX"],
+      ]),
+    });
+    const data = (await res.json()) as Array<{ result: number }>;
+    const count = data?.[0]?.result ?? 0;
+    return count > MAX_REQUESTS;
+  } catch (e) {
+    console.error("[lead] Upstash rate-limit недоступен, fallback in-memory:", e);
+    return null;
+  }
+}
+
+async function rateLimited(ip: string): Promise<boolean> {
+  const viaUpstash = await rateLimitedUpstash(ip);
+  return viaUpstash ?? rateLimitedMemory(ip);
 }
 
 function escapeHtml(s: string): string {
@@ -45,7 +76,7 @@ export async function POST(request: Request) {
   const h = await headers();
   const ip = (h.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
 
-  if (rateLimited(ip)) {
+  if (await rateLimited(ip)) {
     return Response.json(
       { ok: false, error: "Слишком много запросов. Попробуйте через минуту." },
       { status: 429 },

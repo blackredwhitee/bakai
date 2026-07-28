@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import { ServiceTile } from "./brands";
 import { HERO_BENEFITS, SERVICES } from "@/content/site";
 
 export default function ServicesSection() {
@@ -62,26 +63,9 @@ export default function ServicesSection() {
         <h2 style={{ fontWeight: 700, fontSize: "clamp(24px,3vw,34px)", color: "#fff", margin: "0 0 36px", letterSpacing: "-.02em" }}>
           Подходит для сервисов, недоступных из России
         </h2>
-        {/* TODO(design): заменить текстовые названия на реальные SVG-логотипы сервисов */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(150px,1fr))", gap: 14 }}>
           {SERVICES.map((s) => (
-            <div
-              key={s}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "18px 14px",
-                borderRadius: 14,
-                background: "rgba(255,255,255,.04)",
-                border: "1px solid rgba(255,255,255,.08)",
-                color: "rgba(225,232,248,.85)",
-                fontWeight: 600,
-                fontSize: 16,
-              }}
-            >
-              {s}
-            </div>
+            <ServiceTile key={s} name={s} />
           ))}
         </div>
       </Reveal>

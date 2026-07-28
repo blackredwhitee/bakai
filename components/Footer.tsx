@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { NAV_LINKS, LEGAL, SUPPORT_TG, POLICY_URL } from "@/content/site";
+import { asset } from "@/lib/asset";
 
 const linkStyle: React.CSSProperties = {
   textDecoration: "none",
@@ -21,7 +22,7 @@ export default function Footer() {
       <div style={{ maxWidth: 1180, margin: "0 auto" }}>
         <div className="footgrid" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr", gap: 40, paddingBottom: 40, borderBottom: "1px solid rgba(255,255,255,.08)" }}>
           <div>
-            <Image src="/talkbank-logo.svg" alt="TalkBank" width={132} height={30} style={{ height: 30, width: "auto", display: "block", marginBottom: 18 }} />
+            <Image src={asset("/talkbank-logo.svg")} alt="TalkBank" width={132} height={30} style={{ height: 30, width: "auto", display: "block", marginBottom: 18 }} />
             <p style={{ fontSize: 14, lineHeight: 1.65, color: "rgba(200,210,232,.6)", margin: "0 0 18px", maxWidth: 340 }}>
               Международные карты Visa и Mastercard с выпуском в Кыргызстане. Оформление удалённо,
               доставка по России.
